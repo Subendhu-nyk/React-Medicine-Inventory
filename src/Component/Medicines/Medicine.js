@@ -1,5 +1,5 @@
 import AddMedicine from "../AddMedicines/AddMedicines";
-import MedicineList from "../AddMedicines/MedicineList";
+import AvailableMedicine from "../Medicines/AvailableMedicine";
 import MedicineSummary from "./MedicineSummary";
 
 import { Fragment, useState } from "react";
@@ -23,7 +23,7 @@ const Medicine =()=>{
         {   
         toggle?<MedicineSummary onClick={onclickHandler}/> :<AddMedicine onAddMedicine={AddMedicineHandler}/>   
         } 
-        <MedicineList products={productList} /> 
+        <AvailableMedicine products={productList} /> 
 
         </Fragment>
     )
