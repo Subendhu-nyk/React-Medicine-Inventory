@@ -1,9 +1,11 @@
-import React,{useState} from "react";
+import React,{useContext, useState} from "react";
 import Card from "../UI/FormButton/Card";
 import classes from './AddMedicine.module.css'
 import Button from "../UI/FormButton/Button";
 import ErrorModal from "../UI/FormButton/ErrorModal";
+import CartContext from "../../Store/CartContext";
 const AddMedicine=(props)=>{
+    const cartCtx=useContext(CartContext)
     const [quantity,setQuantity]=useState('')
     const [price,setPrice]=useState('')
     const [name,setName]=useState('')
@@ -28,7 +30,23 @@ const AddMedicine=(props)=>{
            })
             return
         }
-        props.onAddMedicine(name,description,price,quantity)
+        let id=Math.random().toString()
+        props.onAddMedicine(name,description,price,quantity,id)
+        let count=0;
+        const obj={name,description,price,quantity,count,id}
+        cartCtx.addItem(obj)
+     
+    // cartCtx.addItem({...props.item})
+    // console.log("cartCtx.item",cartCtx)   
+    // if(existingItem>=0){
+    //     setQty(cartCtx.items[existingItem].quantity)
+    // }
+    // else{
+    //     setQty("No stock available")
+    //     return;
+    // }
+ console.log("cartctx in addmedicine",cartCtx)
+
         setQuantity("")
         setPrice('')
         setName('')
@@ -38,24 +56,24 @@ const AddMedicine=(props)=>{
 
     const quantityChangeHandler=(event)=>{
         event.preventDefault()
-        console.log(event.target.value)
+      
         setQuantity(event.target.value)
     }
     const priceChangeHandler=(event)=>{
         event.preventDefault()
-        console.log(event.target.value)
+        
         setPrice(event.target.value)
     }
 
     const nameChangeHandler=(event)=>{
         event.preventDefault()
-        console.log(event.target.value)
+        
         setName(event.target.value)
     }
 
     const descriptioneChangeHandler=(event)=>{
         event.preventDefault()
-        console.log(event.target.value)
+        
         setDescription(event.target.value)
     }
 
@@ -68,6 +86,7 @@ const AddMedicine=(props)=>{
         <div>
           {error &&  <ErrorModal title={error.title} message={error.message} onConfirm={errorHandler}/>}
         <Card className={classes.input}>
+        <h4>Add Medicine</h4>
         <form onSubmit={AddMedicineHandler}>
             <label htmlFor="name">Medicine Name</label>
             <input type="text" value={name} id="name" onChange={nameChangeHandler}/>

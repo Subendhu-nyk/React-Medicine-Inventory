@@ -1,30 +1,82 @@
-import React, { Fragment } from "react";
+import React, { useContext, useState,useEffect } from "react";
 import classes from './Cart.module.css'
 import Modal from "../UI/Modal";
+import CartContext from "../../Store/CartContext";
+import CartItem from "./CartItem";
 
 const Cart=(props)=>{
+    const cartCtx=useContext(CartContext)
+   const [total,setTotal]=useState(0)   
+console.log(cartCtx,"cartCtx cart")
 
-    const cartItemRemoveHandler=id=>{
+useEffect(() => {
+  const mergedItems = cartCtx.items.reduce((accumulator, item) => {
+    const existingItem = accumulator.find((mergedItem) => mergedItem.name === item.name);
 
+    if (existingItem) {        
+      existingItem.quantity += item.quantity;
+
+    } else {        
+      accumulator.push({ ...item });
     }
 
-    const cartItemAddHandler=id=>{
+    return accumulator;
+  }, []);
 
+  let sum = mergedItems.reduce((accumulator, item) => {
+    return accumulator + (item.price * item.count);
+  }, 0);
+  setTotal(sum);
+}, [cartCtx.items]);
+
+
+
+
+    const cartItemRemoveHandler=id=>{
+      const itemToRemove = cartCtx.items.find((item) => item.id === id);
+      const existingItem = cartCtx.items.findIndex((cartItem) => cartItem.id === id);
+      console.log("existing id",existingItem)
+  if (itemToRemove) {
+    // Decrease the quantity by 1 (if it's greater than 0)
+    if (itemToRemove.count > 0) {
+      itemToRemove.count -= 1;
+      cartCtx.items[existingItem].quantity += 1
+      setTotal((prevTotal) => prevTotal - itemToRemove.price);
+    }
+
+
+  }
+
+    }
+    console.log("cartCtx out cartitem",cartCtx.items)
+    const cartItemAddHandler=id=>{
+      const itemToAdd = cartCtx.items.find((item) => item.id === id);
+      const existingItem = cartCtx.items.findIndex((cartItem) => cartItem.id === id);
+  if (itemToAdd) {
+    // Decrease the quantity by 1 (if it's greater than 0)
+    if (itemToAdd) {
+      itemToAdd.count =(itemToAdd.count) +1;
+      cartCtx.items[existingItem].quantity -= 1
+      setTotal((prevTotal) => prevTotal + Number(itemToAdd.price));
+      console.log("cartCtx inside cartitem",cartCtx.items)
+    }
+  }
     }
     const cartItems = (
         <ul className={classes['cart-items']}>
-          {[{ id: 'c1', name: 'Sushi', amount: 2, price: 12.99 }].map((item) => (
-            <li>{item.name}</li>
+          {cartCtx.items.map((item) => (
+             <CartItem key={item.id} name={item.name} amount={item.amount} price={item.price} quantity={item.count} onRemove={cartItemRemoveHandler.bind(null,item.id)} onAdd={cartItemAddHandler.bind(null,item.id)}/>
+            // <li>Item Name:{item.name} Quantity:{item.quantity}</li>
           ))}
         </ul>
       );
-
+      let totalAmount= `$${total}`
     return(
         <Modal onClose={props.onClose}>
             {cartItems}
         <div className={classes.total}>
         <span>Total Amount</span>
-        <span>35.62</span>
+        <span>{totalAmount}</span>
     </div>
     <div className={classes.actions}>
         <button className={classes['button--alt']} onClick={props.onClose}>Close</button>
