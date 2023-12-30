@@ -84,9 +84,10 @@ useEffect(() => {
     console.log("medicine details for post",medicineDetails)
 
     const orderHandler=()=>{
+      medicineDetails.forEach((medicine) => {
       fetch('https://medicine-3d3dd-default-rtdb.firebaseio.com/medicine.json',{
         method:'POST',
-        body:JSON.stringify(medicineDetails),
+        body:JSON.stringify(medicine),
         headers:{
           'Content-Type':'application/json'
         }
@@ -105,6 +106,7 @@ useEffect(() => {
       console.error('Error:', error);
       alert('An error occurred while saving the expense.');
   });
+});
     }
       
 

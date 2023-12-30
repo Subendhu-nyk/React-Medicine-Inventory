@@ -11,6 +11,7 @@ const AddMedicine=(props)=>{
     const [name,setName]=useState('')
     const[description,setDescription]=useState('')
     const[error,setError]=useState()
+    const[isForm,setIsForm]=useState(false)
 
     const AddMedicineHandler=(event)=>{
         event.preventDefault()
@@ -36,15 +37,6 @@ const AddMedicine=(props)=>{
         const obj={name,description,price,quantity,count,id}
         cartCtx.addItem(obj)
      
-    // cartCtx.addItem({...props.item})
-    // console.log("cartCtx.item",cartCtx)   
-    // if(existingItem>=0){
-    //     setQty(cartCtx.items[existingItem].quantity)
-    // }
-    // else{
-    //     setQty("No stock available")
-    //     return;
-    // }
  console.log("cartctx in addmedicine",cartCtx)
 
         setQuantity("")
@@ -82,38 +74,42 @@ const AddMedicine=(props)=>{
         setError(null)
      }
 
+     const formVisibleHandler=()=>{
+        setIsForm(true)
+     }
+
     return(
         <Fragment>        
           {error &&  <ErrorModal title={error.title} message={error.message} onConfirm={errorHandler}/>}
         <Card className={classes.input}>
         <Container>
             <Row className="mb-2">
-                <Col className="pb-3">
+                <Col className="pb-2">
                 <h2 style={{ fontFamily: "'Playfair Display', serif" ,fontWeight:"bolder",fontSize:'40px'}}>Add Medicine</h2>
                 </Col>
             </Row>
-            <Form onSubmit={AddMedicineHandler}>
+           {isForm && <Form onSubmit={AddMedicineHandler}>
             <Row className="mb-3" style={{fontSize:'20px',fontFamily: "'Crimson Text', serif"}}>  
                 <Col lg='6'>
-                <Form.Group className="mb-3" controlId="name">
+                <Form.Group className="mb-3">
                     <Form.Label>Medicine Name</Form.Label>
                     <Form.Control type="text" value={name} id="name" onChange={nameChangeHandler}/>
                 </Form.Group>
                 </Col>
                 <Col lg='6'>
-                <Form.Group className="mb-3" controlId="description">
+                <Form.Group className="mb-3">
                     <Form.Label>Medicine Description</Form.Label>
                     <Form.Control type="text" value={description} id="description" onChange={descriptioneChangeHandler} />
                 </Form.Group>
                 </Col>
                 <Col lg='6'>
-                <Form.Group className="mb-3" controlId="price">
+                <Form.Group className="mb-3">
                     <Form.Label>Medicine Price</Form.Label>
                     <Form.Control type="number" value={price} id="price" onChange={priceChangeHandler} />
                 </Form.Group>
                 </Col>
                 <Col lg='6'>
-                <Form.Group className="mb-3" controlId="quantity">
+                <Form.Group className="mb-3">
                     <Form.Label>Quantity Available</Form.Label>
                     <Form.Control type="number" value={quantity} id="quantity" onChange={quantityChangeHandler} />
                 </Form.Group>
@@ -122,7 +118,11 @@ const AddMedicine=(props)=>{
              <Row style={{fontSize:'20px',fontFamily: "'Crimson Text', serif"}}>
                 <Col className="text-center"><Button type='submit'variant='success'>+ Add Medicine</Button></Col>
              </Row>
-        </Form>
+            </Form>}
+            {!isForm && 
+            <Row>
+            <Col className="text-center my-1" style={{ fontFamily: "'Playfair Display', serif" ,fontWeight:"bolder",fontSize:'40px'}}><Button type='button'variant='success' onClick={formVisibleHandler}>+ Add Medicine</Button></Col>
+            </Row>}
            
         </Container>
        

@@ -31,7 +31,7 @@ const CartProvider=props=>{
     }
     const addPurchasedItemsHandler=item=>{  
       console.log("item in addItemToCartHandler>>>>",item)      
-      setPurchasedItems(prevItems => [...prevItems, item]) 
+      setPurchasedItems([...items, item]) 
     }   
     const cartContext={
         items:items,
