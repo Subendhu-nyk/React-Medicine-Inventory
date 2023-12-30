@@ -3,18 +3,19 @@
     padding: 1rem;
     width: 90%;
     max-width: 40rem;
+    
   }
 
   .input label {
     display: block;
     font-weight: bold;
     margin-bottom: 0.5rem;
+    
   }
 
   .input input {
     font: inherit;
-    display: block;
-    width: 100%;
+    display: block;    
     border: 1px solid #ccc;
     padding: 0.15rem;
     margin-bottom: 0.5rem;
@@ -43,4 +44,9 @@ h4{
   font-size: 28px;
   margin: 10px 0px;
   padding: 0px;
+}
+
+.flex1{
+  display: flex;
+  padding: 0px 5px;
 }

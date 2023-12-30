@@ -1,5 +1,6 @@
 import AddMedicine from "../AddMedicines/AddMedicines";
 import AvailableMedicine from "../Medicines/AvailableMedicine";
+import PurchasedMedicine from "../ShowMedicine/PurchasedMedicine";
 import MedicineSummary from "./MedicineSummary";
 
 import { Fragment, useState } from "react";
@@ -29,6 +30,7 @@ const Medicine =(props)=>{
                 <>
                     <AddMedicine onAddMedicine={AddMedicineHandler} />
                     <AvailableMedicine products={productList} />
+                    <PurchasedMedicine/>
                 </>
             )} 
         

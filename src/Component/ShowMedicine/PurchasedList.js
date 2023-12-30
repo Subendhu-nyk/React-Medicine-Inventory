@@ -1,9 +1,8 @@
-import React, { Fragment, useContext } from "react"
-import MedicineQuantityForm from "./MedicineQuantityForm"
+import React, { Fragment, useContext,useEffect } from "react"
 import classes from "./MedicineList.module.css"
-import CartContext from "../../../Store/CartContext"
-const MedicineList= props=>{   
 
+const PurchasedList= props=>{      
+    console.log("props in purchased list",props)
     const price=`$${props.price}`
     return <Fragment>
          <li className={classes.medicine} key={props.id}>
@@ -11,12 +10,11 @@ const MedicineList= props=>{
         <div className={classes.description}>{props.description}</div>
         <div className={classes.price}>{price}</div>
         </div>
-        <div>
-         <MedicineQuantityForm id={props.id} item={props}/>
+        <div>        
         </div>
     </li>
     </Fragment>
    
 }
 
-export default MedicineList
+export default PurchasedList

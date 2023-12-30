@@ -62,6 +62,7 @@ useEffect(() => {
     }
   }
     }
+
     const cartItems = (
         <ul className={classes['cart-items']}>
           {cartCtx.items.map((item) => (
@@ -71,6 +72,42 @@ useEffect(() => {
         </ul>
       );
       let totalAmount= `$${total}`
+      const medicineDetails = cartCtx.items.map((item, index) => {
+        let price=parseInt(item.price)
+        return {
+            name:item.name,
+            price:price,
+            quantity:item.count,
+            total:price*item.count
+        };
+    });
+    console.log("medicine details for post",medicineDetails)
+
+    const orderHandler=()=>{
+      fetch('https://medicine-3d3dd-default-rtdb.firebaseio.com/medicine.json',{
+        method:'POST',
+        body:JSON.stringify(medicineDetails),
+        headers:{
+          'Content-Type':'application/json'
+        }
+      })
+      .then(response => {
+        if (!response.ok) {
+            throw new Error('Failed to send data');
+        }
+        return response.json();
+    })
+    .then(data => {
+      console.log('Successfully added expense:', data);
+      cartCtx.clearCart();
+    })
+    .catch(error => {
+      console.error('Error:', error);
+      alert('An error occurred while saving the expense.');
+  });
+    }
+      
+
     return(
         <Modal onClose={props.onClose}>
             {cartItems}
@@ -80,7 +117,7 @@ useEffect(() => {
     </div>
     <div className={classes.actions}>
         <button className={classes['button--alt']} onClick={props.onClose}>Close</button>
-        <button className={classes.button}>Order</button>
+        <button className={classes.button} onClick={orderHandler}>Order</button>
     </div>
     </Modal>
     )

@@ -4,6 +4,7 @@ import CartContext from "./CartContext";
 const CartProvider=props=>{
     
     const [items,updateItems]=useState([]) 
+    const [purchasedItems,setPurchasedItems]=useState([])
 
     const addItemToCartHandler=item=>{  
         // console.log("item in addItemToCartHandler>>>>",item)      
@@ -25,12 +26,22 @@ const CartProvider=props=>{
     const removeItemFromCartHandler=id=>{
 
     }
+    const clearCartHandler=()=>{
+      updateItems([])
+    }
+    const addPurchasedItemsHandler=item=>{  
+      console.log("item in addItemToCartHandler>>>>",item)      
+      setPurchasedItems(prevItems => [...prevItems, item]) 
+    }   
     const cartContext={
         items:items,
         totalAmount:0,
         // count:modifyCount
         addItem:addItemToCartHandler,
-        removeItem:removeItemFromCartHandler
+        removeItem:removeItemFromCartHandler,
+        clearCart:clearCartHandler,
+        purchasedItems:purchasedItems,
+        addPurchasedItems:addPurchasedItemsHandler
     }
     return<CartContext.Provider value={cartContext}>
            {/* {console.log("inside CartContext.provider",cartContext)} */}

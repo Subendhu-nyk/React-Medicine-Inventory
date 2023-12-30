@@ -1,9 +1,9 @@
-import React,{useContext, useState} from "react";
+import React,{Fragment, useContext, useState} from "react";
 import Card from "../UI/FormButton/Card";
 import classes from './AddMedicine.module.css'
-import Button from "../UI/FormButton/Button";
 import ErrorModal from "../UI/FormButton/ErrorModal";
 import CartContext from "../../Store/CartContext";
+import { Col, Container, Row, Form,Button } from "react-bootstrap";
 const AddMedicine=(props)=>{
     const cartCtx=useContext(CartContext)
     const [quantity,setQuantity]=useState('')
@@ -83,23 +83,53 @@ const AddMedicine=(props)=>{
      }
 
     return(
-        <div>
+        <Fragment>        
           {error &&  <ErrorModal title={error.title} message={error.message} onConfirm={errorHandler}/>}
         <Card className={classes.input}>
-        <h4>Add Medicine</h4>
-        <form onSubmit={AddMedicineHandler}>
-            <label htmlFor="name">Medicine Name</label>
-            <input type="text" value={name} id="name" onChange={nameChangeHandler}/>
-            <label htmlFor="description">Medicine Description</label>
-            <input type="text" value={description} id="description" onChange={descriptioneChangeHandler}/>            
-            <label htmlFor="price">Medicine Price</label>
-            <input type="number" value={price} id="price" onChange={priceChangeHandler}/>
-            <label htmlFor="quantity">Quantity Available</label>
-            <input type="number" value={quantity} id="quantity" onChange={quantityChangeHandler}/>            
-            <Button type='submit'>Add Medicine</Button>
-        </form>
+        <Container>
+            <Row className="mb-2">
+                <Col className="pb-3">
+                <h2 style={{ fontFamily: "'Playfair Display', serif" ,fontWeight:"bolder",fontSize:'40px'}}>Add Medicine</h2>
+                </Col>
+            </Row>
+            <Form onSubmit={AddMedicineHandler}>
+            <Row className="mb-3" style={{fontSize:'20px',fontFamily: "'Crimson Text', serif"}}>  
+                <Col lg='6'>
+                <Form.Group className="mb-3" controlId="name">
+                    <Form.Label>Medicine Name</Form.Label>
+                    <Form.Control type="text" value={name} id="name" onChange={nameChangeHandler}/>
+                </Form.Group>
+                </Col>
+                <Col lg='6'>
+                <Form.Group className="mb-3" controlId="description">
+                    <Form.Label>Medicine Description</Form.Label>
+                    <Form.Control type="text" value={description} id="description" onChange={descriptioneChangeHandler} />
+                </Form.Group>
+                </Col>
+                <Col lg='6'>
+                <Form.Group className="mb-3" controlId="price">
+                    <Form.Label>Medicine Price</Form.Label>
+                    <Form.Control type="number" value={price} id="price" onChange={priceChangeHandler} />
+                </Form.Group>
+                </Col>
+                <Col lg='6'>
+                <Form.Group className="mb-3" controlId="quantity">
+                    <Form.Label>Quantity Available</Form.Label>
+                    <Form.Control type="number" value={quantity} id="quantity" onChange={quantityChangeHandler} />
+                </Form.Group>
+                </Col>
+             </Row>
+             <Row style={{fontSize:'20px',fontFamily: "'Crimson Text', serif"}}>
+                <Col className="text-center"><Button type='submit'variant='success'>+ Add Medicine</Button></Col>
+             </Row>
+        </Form>
+           
+        </Container>
+       
         </Card>
-        </div>
+        
+        </Fragment>
+        
     )
 }
 

@@ -6,7 +6,7 @@ import MedicineList from "./MedicineList/MedicineList";
 const AvailableMedicine = (props) => {
   return (    
     <Card className={classes.products}>
-      <h2>Product List</h2>      
+      <h2 style={{ fontFamily: "'Playfair Display', serif" ,fontWeight:"bolder",fontSize:'30px'}}>Product List</h2>      
       <ul>
         {props.products.map((product) => {
           
